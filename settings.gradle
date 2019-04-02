@@ -1,0 +1,4 @@
+rootProject.name = 'spring-cloud-sample'
+include 'spring-cloud-simple'
+include 'spring-cloud-awesome'
+

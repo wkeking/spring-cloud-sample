@@ -1,0 +1,36 @@
+group 'com.lixuehui'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+
+buildscript {
+    ext {
+        springBootVersion = '1.5.6.RELEASE'
+        springCloudVersion = 'Dalston.SR5'
+        springCloudStreamVersion = 'Ditmars.SR2'
+        if (project.hasProperty('release')) {
+            releasePublish = true
+        } else {
+            releasePublish = false
+        }
+    }
+    repositories {
+        mavenLocal()
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public' }
+    }
+    dependencies {
+        classpath "io.spring.gradle:dependency-management-plugin:0.5.3.RELEASE"
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
+    }
+    println "spring boot version " + springBootVersion
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
