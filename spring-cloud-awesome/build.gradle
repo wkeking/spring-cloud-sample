@@ -7,8 +7,20 @@ apply plugin: 'io.spring.dependency-management'
 
 sourceCompatibility = 1.8
 
-repositories {
-    mavenCentral()
+jar {
+    baseName = project.name
+    version = project.version
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir 'src/main/java'
+        }
+        resources {
+            srcDirs 'src/main/java'
+        }
+    }
 }
 
 dependencies {

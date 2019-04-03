@@ -10,27 +10,63 @@ buildscript {
         springBootVersion = '1.5.6.RELEASE'
         springCloudVersion = 'Dalston.SR5'
         springCloudStreamVersion = 'Ditmars.SR2'
-        if (project.hasProperty('release')) {
-            releasePublish = true
-        } else {
-            releasePublish = false
-        }
     }
     repositories {
         mavenLocal()
         maven { url 'http://maven.aliyun.com/nexus/content/groups/public' }
     }
+
     dependencies {
         classpath "io.spring.gradle:dependency-management-plugin:0.5.3.RELEASE"
         classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
     }
+
     println "spring boot version " + springBootVersion
 }
 
-repositories {
-    mavenCentral()
+allprojects {
+    apply plugin: 'java'
+    apply plugin: 'idea'
+    apply plugin: 'maven'
+    apply plugin: "io.spring.dependency-management"
+
+    sourceCompatibility = 1.8
 }
 
-dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.12'
+repositories {
+    mavenLocal()
+    maven { url 'http://maven.aliyun.com/nexus/content/groups/public' }
 }
+
+subprojects {
+    repositories {
+        mavenLocal()
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public' }
+    }
+
+    dependencyManagement {
+        imports {
+            mavenBom "org.springframework.boot:spring-boot-starter-parent:${springBootVersion}"
+            mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+            mavenBom "org.springframework.cloud:spring-cloud-stream-dependencies:${springCloudStreamVersion}"
+        }
+    }
+
+    sourceSets {
+        main {
+            java {
+                srcDir 'src/main/java'
+            }
+            resources {
+                srcDirs 'src/main/java'
+            }
+        }
+    }
+
+    dependencies {
+
+    }
+    compileJava.dependsOn(processResources)
+    [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+}
+

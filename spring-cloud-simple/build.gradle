@@ -7,9 +7,13 @@ apply plugin: 'io.spring.dependency-management'
 
 sourceCompatibility = 1.8
 
-repositories {
-    mavenLocal()
-    maven { url 'http://maven.aliyun.com/nexus/content/groups/public' }
+springBoot {
+    classifier = 'exec'
+}
+
+jar {
+    baseName = project.name
+    version = project.version
 }
 
 sourceSets {
